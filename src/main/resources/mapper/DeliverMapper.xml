@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campusrecruit.mapper.DeliverMapper">
+  <resultMap id="BaseResultMap" type="com.campusrecruit.pojo.DO.Deliver">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="deliver_id" jdbcType="INTEGER" property="deliverId" />
+    <result column="resume_id" jdbcType="INTEGER" property="resumeId" />
+    <result column="postion_id" jdbcType="INTEGER" property="postionId" />
+    <result column="publicer_id" jdbcType="INTEGER" property="publicerId" />
+    <result column="deliver_date" jdbcType="TIMESTAMP" property="deliverDate" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, deliver_id, resume_id, postion_id, publicer_id, deliver_date, `type`, `state`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_deliver
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_deliver
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.campusrecruit.pojo.DO.Deliver" useGeneratedKeys="true">
+    insert into t_deliver (deliver_id, resume_id, postion_id, 
+      publicer_id, deliver_date, `type`, 
+      `state`)
+    values (#{deliverId,jdbcType=INTEGER}, #{resumeId,jdbcType=INTEGER}, #{postionId,jdbcType=INTEGER}, 
+      #{publicerId,jdbcType=INTEGER}, #{deliverDate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.campusrecruit.pojo.DO.Deliver" useGeneratedKeys="true">
+    insert into t_deliver
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deliverId != null">
+        deliver_id,
+      </if>
+      <if test="resumeId != null">
+        resume_id,
+      </if>
+      <if test="postionId != null">
+        postion_id,
+      </if>
+      <if test="publicerId != null">
+        publicer_id,
+      </if>
+      <if test="deliverDate != null">
+        deliver_date,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deliverId != null">
+        #{deliverId,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null">
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="postionId != null">
+        #{postionId,jdbcType=INTEGER},
+      </if>
+      <if test="publicerId != null">
+        #{publicerId,jdbcType=INTEGER},
+      </if>
+      <if test="deliverDate != null">
+        #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.campusrecruit.pojo.DO.Deliver">
+    update t_deliver
+    <set>
+      <if test="deliverId != null">
+        deliver_id = #{deliverId,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null">
+        resume_id = #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="postionId != null">
+        postion_id = #{postionId,jdbcType=INTEGER},
+      </if>
+      <if test="publicerId != null">
+        publicer_id = #{publicerId,jdbcType=INTEGER},
+      </if>
+      <if test="deliverDate != null">
+        deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.campusrecruit.pojo.DO.Deliver">
+    update t_deliver
+    set deliver_id = #{deliverId,jdbcType=INTEGER},
+      resume_id = #{resumeId,jdbcType=INTEGER},
+      postion_id = #{postionId,jdbcType=INTEGER},
+      publicer_id = #{publicerId,jdbcType=INTEGER},
+      deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
