@@ -7,6 +7,8 @@ import com.campusrecruit.service.VerifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class VerifyServicelmpl implements VerifyService {
 
@@ -28,5 +30,18 @@ public class VerifyServicelmpl implements VerifyService {
     @Override
     public int updataOne(Verify verify) {
         return verifyMapper.updateById(verify);
+    }
+
+    @Override
+    public List<Verify> selectVerifyList() {
+        return verifyMapper.selectList(new QueryWrapper<>());
+    }
+
+    @Override
+    public Verify selectById(Integer id) {
+        QueryWrapper<Verify> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id);
+
+        return  verifyMapper.selectOne(wrapper);
     }
 }

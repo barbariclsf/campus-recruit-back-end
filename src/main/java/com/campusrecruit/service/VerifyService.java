@@ -2,6 +2,8 @@ package com.campusrecruit.service;
 
 import com.campusrecruit.pojo.DO.Verify;
 
+import java.util.List;
+
 public interface VerifyService {
 
     /**
@@ -25,4 +27,8 @@ public interface VerifyService {
      * @return
      */
     int updataOne(Verify verify);
+
+    List<Verify> selectVerifyList();
+
+    Verify selectById(Integer valueOf);
 }

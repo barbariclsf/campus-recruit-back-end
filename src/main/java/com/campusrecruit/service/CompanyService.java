@@ -25,4 +25,8 @@ public interface CompanyService {
      * @return
      */
     List<Company> searchByCompanyName(String content);
+
+    int insertOne(Company company);
+
+    int updateOne(Company company);
 }

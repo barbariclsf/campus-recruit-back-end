@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campusrecruit.mapper.PostionMapper">
+  <resultMap id="BaseResultMap" type="com.campusrecruit.pojo.DO.Postion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="postion_id" jdbcType="INTEGER" property="postionId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="publicer_id" jdbcType="INTEGER" property="publicerId" />
+    <result column="postion_name" jdbcType="VARCHAR" property="postionName" />
+    <result column="salary" jdbcType="VARCHAR" property="salary" />
+    <result column="demand_education" jdbcType="VARCHAR" property="demandEducation" />
+    <result column="demand_major" jdbcType="VARCHAR" property="demandMajor" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="public_date" jdbcType="TIMESTAMP" property="publicDate" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, postion_id, company_id, publicer_id, postion_name, salary, demand_education, 
+    demand_major, description, `location`, public_date, num, `state`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_postion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_postion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.campusrecruit.pojo.DO.Postion" useGeneratedKeys="true">
+    insert into t_postion (postion_id, company_id, publicer_id, 
+      postion_name, salary, demand_education, 
+      demand_major, description, `location`, 
+      public_date, num, `state`
+      )
+    values (#{postionId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{publicerId,jdbcType=INTEGER}, 
+      #{postionName,jdbcType=VARCHAR}, #{salary,jdbcType=VARCHAR}, #{demandEducation,jdbcType=VARCHAR}, 
+      #{demandMajor,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{publicDate,jdbcType=TIMESTAMP}, #{num,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.campusrecruit.pojo.DO.Postion" useGeneratedKeys="true">
+    insert into t_postion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="postionId != null">
+        postion_id,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="publicerId != null">
+        publicer_id,
+      </if>
+      <if test="postionName != null">
+        postion_name,
+      </if>
+      <if test="salary != null">
+        salary,
+      </if>
+      <if test="demandEducation != null">
+        demand_education,
+      </if>
+      <if test="demandMajor != null">
+        demand_major,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="location != null">
+        `location`,
+      </if>
+      <if test="publicDate != null">
+        public_date,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="postionId != null">
+        #{postionId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="publicerId != null">
+        #{publicerId,jdbcType=INTEGER},
+      </if>
+      <if test="postionName != null">
+        #{postionName,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="demandEducation != null">
+        #{demandEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="demandMajor != null">
+        #{demandMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="publicDate != null">
+        #{publicDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.campusrecruit.pojo.DO.Postion">
+    update t_postion
+    <set>
+      <if test="postionId != null">
+        postion_id = #{postionId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="publicerId != null">
+        publicer_id = #{publicerId,jdbcType=INTEGER},
+      </if>
+      <if test="postionName != null">
+        postion_name = #{postionName,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="demandEducation != null">
+        demand_education = #{demandEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="demandMajor != null">
+        demand_major = #{demandMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        `location` = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="publicDate != null">
+        public_date = #{publicDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.campusrecruit.pojo.DO.Postion">
+    update t_postion
+    set postion_id = #{postionId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
+      publicer_id = #{publicerId,jdbcType=INTEGER},
+      postion_name = #{postionName,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      demand_education = #{demandEducation,jdbcType=VARCHAR},
+      demand_major = #{demandMajor,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      `location` = #{location,jdbcType=VARCHAR},
+      public_date = #{publicDate,jdbcType=TIMESTAMP},
+      num = #{num,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

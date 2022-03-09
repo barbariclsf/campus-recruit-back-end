@@ -75,9 +75,14 @@ public class Postion implements Serializable {
     private Date publicDate;
 
     /**
-     * 简历投递数量
+     * 数量
      */
     private Integer num;
+
+    /**
+     * 状态
+     */
+    private Integer state;
 
 
 }

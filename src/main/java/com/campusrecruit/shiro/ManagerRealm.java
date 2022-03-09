@@ -1,6 +1,9 @@
 package com.campusrecruit.shiro;
 
 
+import com.campusrecruit.pojo.DO.Manager;
+import com.campusrecruit.service.ManagerService;
+import com.campusrecruit.utils.ApplicationContextUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -22,14 +25,13 @@ public class ManagerRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-//        String managerId = (String) authenticationToken.getPrincipal();
-//        System.out.println("manage  " + managerId);
-//        ManagerService managerService = (ManagerService) ApplicationContextUtil.getBean("managerServicelmpl");
-//        Manager manager = managerService.selectById(Integer.valueOf(managerId));
-//        System.out.println(manager);
-//        if(!ObjectUtils.isEmpty(manager)){
-//            return  new SimpleAuthenticationInfo(managerId,manager.getPassword(), ByteSource.Util.bytes(manager.getSalt()),this.getName());
-//        }
+        String managerId = (String) authenticationToken.getPrincipal();
+        ManagerService managerService = (ManagerService) ApplicationContextUtil.getBean("managerServicelmpl");
+        Manager manager = managerService.selectById(Integer.valueOf(managerId));
+        System.out.println(manager);
+        if(!ObjectUtils.isEmpty(manager)){
+            return  new SimpleAuthenticationInfo(managerId,manager.getPassword(), ByteSource.Util.bytes(manager.getSalt()),this.getName());
+        }
         return null;
     }
 }

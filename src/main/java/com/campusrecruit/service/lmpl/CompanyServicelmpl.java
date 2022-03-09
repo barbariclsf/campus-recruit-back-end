@@ -33,5 +33,15 @@ public class CompanyServicelmpl implements CompanyService {
         return companyMapper.selectList(wrapper);
     }
 
+    @Override
+    public int insertOne(Company company) {
+        return companyMapper.insert(company);
+    }
+
+    @Override
+    public int updateOne(Company company) {
+        return companyMapper.updateById(company);
+    }
+
 
 }

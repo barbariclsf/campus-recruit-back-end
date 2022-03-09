@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campusrecruit.mapper.TManagerMapper">
+  <resultMap id="BaseResultMap" type="com.campusrecruit.pojo.DO.Manager">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+    <result column="manager_name" jdbcType="VARCHAR" property="managerName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="manager_avatar" jdbcType="VARCHAR" property="managerAvatar" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, manager_id, manager_name, `password`, manager_avatar, salt, last_login_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_manager
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_manager
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.campusrecruit.pojo.DO.Manager" useGeneratedKeys="true">
+    insert into t_manager (manager_id, manager_name, `password`, 
+      manager_avatar, salt, last_login_date
+      )
+    values (#{managerId,jdbcType=INTEGER}, #{managerName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{managerAvatar,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.campusrecruit.pojo.DO.Manager" useGeneratedKeys="true">
+    insert into t_manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="managerId != null">
+        manager_id,
+      </if>
+      <if test="managerName != null">
+        manager_name,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="managerAvatar != null">
+        manager_avatar,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="lastLoginDate != null">
+        last_login_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="managerId != null">
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="managerName != null">
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="managerAvatar != null">
+        #{managerAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null">
+        #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.campusrecruit.pojo.DO.Manager">
+    update t_manager
+    <set>
+      <if test="managerId != null">
+        manager_id = #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="managerName != null">
+        manager_name = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="managerAvatar != null">
+        manager_avatar = #{managerAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null">
+        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.campusrecruit.pojo.DO.Manager">
+    update t_manager
+    set manager_id = #{managerId,jdbcType=INTEGER},
+      manager_name = #{managerName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      manager_avatar = #{managerAvatar,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
