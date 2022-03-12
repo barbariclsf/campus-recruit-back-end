@@ -79,7 +79,7 @@ public class ManagerController {
     @GetMapping("/selectUserList")
     public ResultMap selectUserList() {
         ResultMap resultMap = new ResultMap();
-        List<User> userList = managerService.selectUserList();
+        List<User> userList = userService.selectUserList();
         resultMap.setCode(200);
         resultMap.setResult("success");
         resultMap.setMessage("查询用户列表成功");
