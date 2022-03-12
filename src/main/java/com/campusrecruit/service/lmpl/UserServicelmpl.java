@@ -7,6 +7,8 @@ import com.campusrecruit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServicelmpl implements UserService {
     @Autowired
@@ -36,5 +38,10 @@ public class UserServicelmpl implements UserService {
     @Override
     public int insertOne(User user) {
         return userMapper.insert(user);
+    }
+
+    @Override
+    public List<User> selectUserList() {
+        return userMapper.selectList(new QueryWrapper<>());
     }
 }
