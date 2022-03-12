@@ -33,9 +33,5 @@ public class ManagerServicelmpl implements ManagerService {
         return managerMapper.updateById(manager);
     }
 
-    @Override
-    public List<User> selectUserList() {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        return userMapper.selectList(wrapper);
-    }
+
 }
