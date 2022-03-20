@@ -10,5 +10,5 @@ public interface ManagerService {
 
     int updateOne(Manager manager);
 
-    List<User> selectUserList();
+
 }
