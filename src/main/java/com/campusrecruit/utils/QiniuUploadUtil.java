@@ -19,8 +19,8 @@ public class QiniuUploadUtil {
 
     private static final String ACCESS_KEY = "xeEgPGECPo9LPW0y1oahZs6SOUeyxgxC6dkWAG0V";
     private static final String SECRET_KEY = "yzPAiaQZRtvkwOqLYjOSpdn9aWU-wfH9FI2DcaEF";
-    private static final String BUCKET = "lsfpdf";
-    private static final  String QINIUYUNDOMAIN ="http://r2apv4kp8.hn-bkt.clouddn.com/";
+    private static final String BUCKET = "campus-recruit";
+    private static final  String QINIUYUNDOMAIN ="http://rartlv2ri.hn-bkt.clouddn.com/";
 
     public static String uploadFile(MultipartFile file)  {
         try {
