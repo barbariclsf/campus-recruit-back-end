@@ -9,6 +9,7 @@ import com.campusrecruit.service.CompanyService;
 import com.campusrecruit.service.PostionService;
 import com.campusrecruit.service.TradeService;
 import com.campusrecruit.utils.GenerateIdUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/postion")
+@Slf4j
 public class PostionController {
     @Autowired
     private PostionService postionService;
@@ -27,11 +29,9 @@ public class PostionController {
     @Autowired
     private TradeService tradeService;
 
-
-
-
     /**
      * 新增职位
+     *
      * @param companyId
      * @param publicerId
      * @param postionName
@@ -51,7 +51,7 @@ public class PostionController {
                                  @RequestParam("demandEducation") String demandEducation,
                                  @RequestParam("demandMajor") String demandMajor,
                                  @RequestParam("description") String description,
-                                 @RequestParam("location") String location){
+                                 @RequestParam("location") String location) {
         Postion postion = new Postion();
         int pid = Integer.valueOf(GenerateIdUtil.generateUID());
         synchronized (this) {
@@ -70,13 +70,14 @@ public class PostionController {
         postion.setDescription(description);
         postion.setLocation(location);
         postion.setPublicDate(new Date());
+        postion.setState(1);
         int res = postionService.insertOne(postion);
         ResultMap resultMap = new ResultMap();
-        if(res > 0){
+        if (res > 0) {
             resultMap.setCode(200);
             resultMap.setResult("success");
             resultMap.setMessage("保存成功");
-        }else{
+        } else {
             resultMap.setCode(201);
             resultMap.setResult("error");
             resultMap.setMessage("保存失败");
@@ -85,14 +86,16 @@ public class PostionController {
     }
 
     @PostMapping("/deletePostion")
-    public ResultMap deletePostion(@RequestParam("postionId") String postionId){
-        int res = postionService.deleteOne(Integer.valueOf(postionId));
+    public ResultMap deletePostion(@RequestParam("postionId") String postionId) {
+        Postion postion = postionService.selectById(Integer.valueOf(postionId));
+        postion.setState(0);
+        int res = postionService.updateOne(postion);
         ResultMap resultMap = new ResultMap();
-        if(res > 0){
+        if (res > 0) {
             resultMap.setCode(200);
             resultMap.setResult("success");
             resultMap.setMessage("删除成功");
-        }else{
+        } else {
             resultMap.setCode(201);
             resultMap.setResult("error");
             resultMap.setMessage("删除失败");
@@ -104,13 +107,13 @@ public class PostionController {
 
     @PostMapping("/updatePostion")
     public ResultMap updatePostion(@RequestParam("postionId") String postionId,
-                                 @RequestParam("postionName") String postionName,
-                                 @RequestParam("salary") String salary,
-                                 @RequestParam("num") String num,
-                                 @RequestParam("demandEducation") String demandEducation,
-                                 @RequestParam("demandMajor") String demandMajor,
-                                 @RequestParam("description") String description,
-                                 @RequestParam("location") String location){
+                                   @RequestParam("postionName") String postionName,
+                                   @RequestParam("salary") String salary,
+                                   @RequestParam("num") String num,
+                                   @RequestParam("demandEducation") String demandEducation,
+                                   @RequestParam("demandMajor") String demandMajor,
+                                   @RequestParam("description") String description,
+                                   @RequestParam("location") String location) {
         Postion postion = postionService.selectById(Integer.valueOf(postionId));
         postion.setPostionName(postionName);
         postion.setSalary(salary);
@@ -120,28 +123,27 @@ public class PostionController {
         postion.setLocation(location);
         postion.setNum(Integer.valueOf(num));
         postion.setPublicDate(new Date());
-        int res = postionService.updateOne(postion);
+        Company company = companyService.selectById(postion.getCompanyId());
+        company.setPostionNum(company.getPostionNum() + 1);
+        companyService.updateOne(company);
+        postionService.updateOne(postion);
         ResultMap resultMap = new ResultMap();
-        if(res > 0){
-            resultMap.setCode(200);
-            resultMap.setResult("success");
-            resultMap.setMessage("更新成功");
-        }else{
-            resultMap.setCode(201);
-            resultMap.setResult("error");
-            resultMap.setMessage("更新失败");
-        }
+        resultMap.setCode(200);
+        resultMap.setResult("success");
+        resultMap.setMessage("更新成功");
         return resultMap;
     }
+
     /**
      * 职位列表
+     *
      * @return
      */
     @GetMapping
-    public ResultMap selectPostionList(){
+    public ResultMap selectPostionList() {
         List<PostionAndCompanyVO> pcs = new ArrayList<>();
         List<Postion> postionList = postionService.selectPostionList();
-        postionList.forEach(item ->{
+        postionList.forEach(item -> {
             PostionAndCompanyVO pc = new PostionAndCompanyVO();
             Company company = companyService.selectById(item.getCompanyId());
             Trade trade = tradeService.selectById(company.getTrade());
@@ -160,10 +162,10 @@ public class PostionController {
 
 
     @PostMapping("/selectByPubId")
-    public ResultMap selectByPubId(@RequestParam("userId") String userId){
+    public ResultMap selectByPubId(@RequestParam("userId") String userId) {
         List<PostionAndCompanyVO> pcs = new ArrayList<>();
         List<Postion> postionList = postionService.selectByPubId(Integer.valueOf(userId));
-        postionList.forEach(item ->{
+        postionList.forEach(item -> {
             PostionAndCompanyVO pc = new PostionAndCompanyVO();
             Company company = companyService.selectById(item.getCompanyId());
             Trade trade = tradeService.selectById(company.getTrade());
@@ -182,11 +184,12 @@ public class PostionController {
 
     /**
      * 根据职位id查找
+     *
      * @param postionId
      * @return
      */
     @PostMapping("/selectPostion")
-    public ResultMap selectPostion(@RequestParam("postionId") String postionId){
+    public ResultMap selectPostion(@RequestParam("postionId") String postionId) {
 
         Postion postion = postionService.selectById(Integer.valueOf(postionId));
         Company company = companyService.selectById(postion.getCompanyId());

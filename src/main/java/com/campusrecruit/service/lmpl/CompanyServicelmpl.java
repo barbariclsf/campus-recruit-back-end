@@ -23,7 +23,9 @@ public class CompanyServicelmpl implements CompanyService {
 
     @Override
     public List<Company> selectCompanyList() {
-        return companyMapper.selectList(new QueryWrapper<>());
+        QueryWrapper<Company> wrapper = new QueryWrapper<>();
+        wrapper.eq("state",1);
+        return companyMapper.selectList(wrapper);
     }
 
     @Override
@@ -41,6 +43,11 @@ public class CompanyServicelmpl implements CompanyService {
     @Override
     public int updateOne(Company company) {
         return companyMapper.updateById(company);
+    }
+
+    @Override
+    public List<Company> selectAllCompanyList() {
+        return companyMapper.selectList(new QueryWrapper<>());
     }
 
 

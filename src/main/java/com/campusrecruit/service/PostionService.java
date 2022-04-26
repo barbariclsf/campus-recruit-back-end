@@ -61,4 +61,6 @@ public interface PostionService {
      * @return
      */
     List<Postion> searchByPostionName(String content);
+
+    List<Postion> selectAllPostionList();
 }

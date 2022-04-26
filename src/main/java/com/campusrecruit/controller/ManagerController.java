@@ -10,9 +10,11 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,50 +78,89 @@ public class ManagerController {
         return resultMap;
     }
 
-    @GetMapping("/selectUserList")
-    public ResultMap selectUserList() {
+    @PostMapping("/selectUserList")
+    public ResultMap selectUserList(@RequestParam(value = "userName",required = false) String userName) {
         ResultMap resultMap = new ResultMap();
         List<User> userList = userService.selectUserList();
+        if(!StringUtils.isEmpty(userName)){
+            List<User> list = new ArrayList<>();
+            userList.forEach(item -> {
+                if(item.getUserName().equals(userName)){
+                    list.add(item);
+                }
+            });
+            resultMap.setData(list);
+        }else{
+            resultMap.setData(userList);
+        }
         resultMap.setCode(200);
         resultMap.setResult("success");
         resultMap.setMessage("查询用户列表成功");
-        resultMap.setData(userList);
         return resultMap;
     }
 
-    @GetMapping("/selectPostionList")
-    public ResultMap selectPostionList() {
+    @PostMapping("/selectPostionList")
+    public ResultMap selectPostionList(@RequestParam(value = "postionName",required = false)String postionName) {
         ResultMap resultMap = new ResultMap();
-        List<Postion> postionList = postionService.selectPostionList();
+        List<Postion> postionList = postionService.selectAllPostionList();
+        if(!StringUtils.isEmpty(postionName)){
+            List<Postion> list = new ArrayList<>();
+            postionList.forEach(item -> {
+                if(item.getPostionName().equals(postionName)){
+                    list.add(item);
+                }
+            });
+            resultMap.setData(list);
+        }else{
+            resultMap.setData(postionList);
+        }
         resultMap.setCode(200);
         resultMap.setResult("success");
-        resultMap.setMessage("查询用户列表成功");
-        resultMap.setData(postionList);
+        resultMap.setMessage("查询职位列表成功");
         return resultMap;
     }
 
-    @GetMapping("/selectCompanyList")
-    public ResultMap selectCompanyList() {
+    @PostMapping("/selectCompanyList")
+    public ResultMap selectCompanyList(@RequestParam(value = "companyName",required = false) String companyName) {
         ResultMap resultMap = new ResultMap();
-        List<Company> companyList = companyService.selectCompanyList();
+        List<Company> companyList = companyService.selectAllCompanyList();
+        if(!StringUtils.isEmpty(companyName)){
+            List<Company> list = new ArrayList<>();
+            companyList.forEach(item -> {
+                if(item.getCompanyName().equals(companyName)){
+                    list.add(item);
+                }
+            });
+            resultMap.setData(list);
+        }else{
+            resultMap.setData(companyList);
+        }
         List<Trade> tradeList = tradeService.selectTradeList();
         resultMap.setCode(200);
         resultMap.setResult("success");
         resultMap.setMessage("查询公司列表成功");
-        resultMap.setData(companyList);
         resultMap.setArrayList(tradeList);
         return resultMap;
     }
 
-    @GetMapping("/selectVerifyList")
-    public ResultMap selectVerifyList() {
+    @PostMapping("/selectVerifyList")
+    public ResultMap selectVerifyList(@RequestParam(value = "userName",required = false)String userName) {
         ResultMap resultMap = new ResultMap();
         List<Verify> verifyList = verifyService.selectVerifyList();
+        if(!StringUtils.isEmpty(userName)){
+            List<Verify> list = new ArrayList<>();
+            verifyList.forEach(item -> {
+                if(item.getUserName().equals(userName)){
+                    list.add(item);
+                }
+            });
+            resultMap.setData(list);
+        }else{
+            resultMap.setData(verifyList);
+        }
         resultMap.setCode(200);
         resultMap.setResult("success");
-        resultMap.setMessage("查询公司列表成功");
-        resultMap.setData(verifyList);
-
+        resultMap.setMessage("查询认证列表成功");
         return resultMap;
     }
 
@@ -169,6 +210,7 @@ public class ManagerController {
             @RequestParam("location") String location,
             @RequestParam("description") String description) {
         ResultMap resultMap = new ResultMap();
+        System.out.println(companyId);
         Company company = companyService.selectById(Integer.valueOf(companyId));
         company.setCompanyName(companyName);
         company.setLogo(companyLogo);
@@ -196,7 +238,8 @@ public class ManagerController {
             @RequestParam("num") String num,
             @RequestParam("salary") String salary,
             @RequestParam("location") String location,
-            @RequestParam("demandEducation") String demandEducation) {
+            @RequestParam("demandEducation") String demandEducation,
+            @RequestParam("description") String desrciption) {
         ResultMap resultMap = new ResultMap();
         Postion postion =  postionService.selectById(Integer.valueOf(postionId));
         postion.setPostionName(postionName);
@@ -204,6 +247,7 @@ public class ManagerController {
         postion.setSalary(salary);
         postion.setLocation(location);
         postion.setDemandEducation(demandEducation);
+        postion.setDescription(desrciption);
         int res = postionService.updateOne(postion);
         if (res > 0) {
             resultMap.setCode(200);

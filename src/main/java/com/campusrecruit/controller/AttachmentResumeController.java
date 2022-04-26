@@ -4,6 +4,7 @@ package com.campusrecruit.controller;
 import com.campusrecruit.pojo.DO.AttachmentResume;
 import com.campusrecruit.pojo.ResultMap;
 import com.campusrecruit.service.AttachmentResumeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/attachmentResume")
+@Slf4j
 public class AttachmentResumeController {
 
     @Autowired
@@ -29,10 +31,13 @@ public class AttachmentResumeController {
      */
     @PostMapping("/deleteResume")
     public ResultMap deleteResume(@RequestParam("id") String id){
-        int res = attachmentResumeService.deleteOne(Integer.valueOf(id));
+        AttachmentResume att = attachmentResumeService.selectById(Integer.valueOf(id));
+        att.setState(0);
+        int res = attachmentResumeService.updateOne(att);
         ResultMap resultMap = new ResultMap();
         if(res > 0){
             resultMap.setCode(200);
+            log.info(att.getUserId() + "删除简历附件");
             resultMap.setResult("success");
             resultMap.setMessage("删除成功");
         }else{
@@ -74,13 +79,13 @@ public class AttachmentResumeController {
         att.setResumeName(resumeName);
         att.setResumeUrl(resumeUrl);
         att.setPublicDate(new Date());
-
+        att.setState(1);
         int res = attachmentResumeService.insertOne(att);
-        System.out.println(att);
         ResultMap resultMap = new ResultMap();
         if(res > 0){
             resultMap.setCode(200);
             resultMap.setData(att);
+            log.info(att.getUserId() + "增加简历附件");
             resultMap.setResult("success");
             resultMap.setMessage("保存成功");
         }else{

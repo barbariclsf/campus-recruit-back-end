@@ -11,4 +11,6 @@ public interface DeliverService {
     List<Deliver> selectByPublicerId(Integer pubId);
 
     List<Deliver> selectByDeliverId(Integer valueOf);
+
+    List<Deliver> checkIsDeliver(Integer valueOf, Integer valueOf1);
 }

@@ -32,4 +32,12 @@ public class DeliverServicelmpl implements DeliverService {
         wrapper.eq("deliver_id",did);
         return deliverMapper.selectList(wrapper);
     }
+
+    @Override
+    public List<Deliver> checkIsDeliver(Integer userId, Integer postionId) {
+        QueryWrapper<Deliver> wrapper = new QueryWrapper<>();
+        wrapper.eq("deliver_id",userId);
+        wrapper.eq("postion_id",postionId);
+        return deliverMapper.selectList(wrapper);
+    }
 }

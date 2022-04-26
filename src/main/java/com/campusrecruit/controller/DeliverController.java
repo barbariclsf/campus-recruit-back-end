@@ -5,6 +5,7 @@ import com.campusrecruit.pojo.VO.DeliverVo;
 import com.campusrecruit.pojo.VO.PostionAndCompanyVO;
 import com.campusrecruit.pojo.ResultMap;
 import com.campusrecruit.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/deliver")
+@Slf4j
 public class DeliverController {
 
     @Autowired
@@ -38,6 +40,25 @@ public class DeliverController {
     @Autowired
     private TradeService tradeService;
 
+    @PostMapping("/checkDeliver")
+    public ResultMap checkDeiver(@RequestParam("userId") String userId,
+                                 @RequestParam("postionId") String postionId){
+        System.out.println(userId + " " + postionId);
+        List<Deliver> delivers = deliverService.checkIsDeliver(Integer.valueOf(userId),Integer.valueOf(postionId));
+        ResultMap resultMap = new ResultMap();
+        if(delivers.size() > 0){
+            resultMap.setCode(200);
+
+            resultMap.setResult("success");
+            resultMap.setMessage("已投递");
+        }else {
+            resultMap.setCode(201);
+            resultMap.setResult("error");
+            resultMap.setMessage("未投递");
+        }
+        return resultMap;
+    }
+
     @PostMapping("/saveDeliver")
     public ResultMap saveDeliver(@RequestParam("deliverId") String deliverId,
                                  @RequestParam("resumeId") String resumeId,
@@ -56,6 +77,7 @@ public class DeliverController {
         ResultMap resultMap = new ResultMap();
         if(res > 0){
             resultMap.setCode(200);
+            log.info(deliverId + "投递" + deliver.getPostionId() + "职位成功");
             resultMap.setResult("success");
             resultMap.setMessage("新增成功");
         }else{

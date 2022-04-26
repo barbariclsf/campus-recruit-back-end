@@ -17,7 +17,9 @@ public class PostionServicelmpl implements PostionService {
 
     @Override
     public List<Postion> selectPostionList() {
-        return postionMapper.selectList(new QueryWrapper<>());
+        QueryWrapper<Postion> wrapper = new QueryWrapper<>();
+        wrapper.eq("state",1);
+        return postionMapper.selectList(wrapper);
     }
 
     @Override
@@ -39,6 +41,7 @@ public class PostionServicelmpl implements PostionService {
     public List<Postion> selectByPubId(Integer userId) {
         QueryWrapper<Postion> wrapper = new QueryWrapper<>();
         wrapper.eq("publicer_id",userId);
+        wrapper.eq("state",1);
         return postionMapper.selectList(wrapper);
     }
 
@@ -60,6 +63,11 @@ public class PostionServicelmpl implements PostionService {
         QueryWrapper<Postion> wrapper = new QueryWrapper<>();
         wrapper.like("postion_name",content);
         return postionMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<Postion> selectAllPostionList() {
+        return postionMapper.selectList(new QueryWrapper<>());
     }
 
     @Override

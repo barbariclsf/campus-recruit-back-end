@@ -24,6 +24,7 @@ public class AttachmentResumeServicelmpl implements AttachmentResumeService {
     public List<AttachmentResume> selectByUserId(Integer userId) {
         QueryWrapper<AttachmentResume> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId);
+        wrapper.eq("state",1);
         return attachmentResumeMapper.selectList(wrapper);
     }
 
@@ -41,5 +42,10 @@ public class AttachmentResumeServicelmpl implements AttachmentResumeService {
         QueryWrapper<AttachmentResume> wrapper = new QueryWrapper<>();
         wrapper.eq("id",rid);
         return attachmentResumeMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public int updateOne(AttachmentResume att) {
+        return attachmentResumeMapper.updateById(att);
     }
 }

@@ -29,4 +29,6 @@ public interface AttachmentResumeService {
 
 
     AttachmentResume selectById(int rid);
+
+    int updateOne(AttachmentResume att);
 }

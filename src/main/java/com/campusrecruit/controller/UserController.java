@@ -8,17 +8,20 @@ import com.campusrecruit.service.UserService;
 import com.campusrecruit.shiro.UserToken;
 import com.campusrecruit.utils.GenerateIdUtil;
 import com.campusrecruit.utils.HttpClientUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -63,6 +66,7 @@ public class UserController {
         ResultMap resultMap = new ResultMap();
         resultMap.setCode(200);
         resultMap.setResult("success");
+        log.info(userName +"更新个人信息");
         resultMap.setMessage("更新个人信息成功");
         resultMap.setData(user);
         return  resultMap;
@@ -98,6 +102,7 @@ public class UserController {
             //以用户身份登入
             subject.login(new UserToken(uid, openId, "User"));
             user = userService.selectByOpenId(openId);
+            log.info(userName + "在" + new Date() + "登录");
             resultMap.setCode(200);
             resultMap.setResult("success");
             resultMap.setMessage("登录成功");
@@ -120,6 +125,7 @@ public class UserController {
             user.setSex(userSex);
             user.setUserName(userName);
             user.setAvatar(userAvatar);
+            user.setType(0);
             int res = userService.insertOne(user);
             if (res > 0) {
                 String uid = String.valueOf(user.getUserId());
@@ -127,13 +133,13 @@ public class UserController {
                 user = userService.selectByOpenId(openId);
                 resultMap.setCode(200);
                 resultMap.setResult("success");
-                resultMap.setMessage("用户注册成功");
+                resultMap.setMessage("用户登录成功");
                 resultMap.setData(user);
                 resultMap.setSessionId(sessionId);
             } else {
                 resultMap.setCode(201);
                 resultMap.setResult("error");
-                resultMap.setMessage("用户注册失败");
+                resultMap.setMessage("用户登录失败");
             }
         }
         return resultMap;

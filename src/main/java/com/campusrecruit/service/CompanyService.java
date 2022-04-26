@@ -29,4 +29,6 @@ public interface CompanyService {
     int insertOne(Company company);
 
     int updateOne(Company company);
+
+    List<Company> selectAllCompanyList();
 }
